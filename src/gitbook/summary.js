@@ -1,14 +1,6 @@
-const { TYPE_DIR } = require('./utils/nodes');
-/*
-# Summary
+const fs = require('fs')
 
-* [Part I](part1/README.md)
-    * [Writing is nice](part1/writing.md)
-    * [GitBook is nice](part1/gitbook.md)
-* [Part II](part2/README.md)
-    * [We love feedback](part2/feedback_please.md)
-    * [Better tools for authors](part2/better_tools.md)
-*/
+const { TYPE_DIR } = require('./utils/nodes');
 
 /**
  *
@@ -30,21 +22,21 @@ function summarizeNode(node, name, path = '') {
   const nodePath = getPath(name, path);
 
   const depth = (nodePath.split('/').length - 1);
-  let tabulation = '';
-  let subtitle = '#';
+  let indent = '';
+  let titleDepth = '#';
 
   for(let i = 0; i < depth; i += 1) {
-    tabulation += '    ';
-    subtitle += '#';
+    indent += '    ';
+    titleDepth += '#';
   }
 
   // If folder, Set a tittle
   if (node.type === TYPE_DIR) {
-    summary += '\n';
-    summary += `${subtitle} ${node.name}`;
+    summary += '\n\n';
+    summary += `${titleDepth} ${node.name}`;
   } else {      
     summary += '\n';
-    summary += `${tabulation}* [${node.name}](${nodePath})`;
+    summary += `${indent}* [${node.name}](${nodePath})`;
   }
 
   return summary;
@@ -75,13 +67,24 @@ function summarizeNodes(index, path = '') {
 /**
  *
  */
-function summarize(index) {
+async function summarize(path, index) {
+  // ToDo: If index not created, create one
+  // ToDo: Instead of Summary, get the title from settings.json
   let summary = '# Summary';
 
-  const node = summarizeNodes(index);
+  summary += summarizeNodes(index);
 
-  console.log('> SUMMARY.md created');
-  return summary;
+  try {
+    fs.writeFileSync(`${path}/SUMMARY.md`, summary);
+    //file written successfully
+    
+    console.log('> SUMMARY.md created');
+    return summary;
+  } catch (e) {
+    console.error('Error crating SUMMARY.md');
+    console.error(e);
+  }
+
 }
 
 module.exports = summarize;

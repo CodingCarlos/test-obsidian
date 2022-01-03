@@ -45,7 +45,7 @@ async function main() {
   }
 
   /* Make the SUMMARY.md */
-  const summarized = await summarize(index);
+  const summarized = await summarize(settings.gitbookProject, index);
   if (!summarized) {
     console.error('Aborting.');
     return false;
