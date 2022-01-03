@@ -1,9 +1,9 @@
-name: Convert the Obsidian project to GitBook
+name: Build GitBook
 on: push
 
 jobs:
   run:
-    name: Build Obsidian to GitBook
+    name: Convert Obsidian to GitBook
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -24,4 +24,4 @@ jobs:
         uses: EndBug/add-and-commit@v7
         with:
           message: 'Build for GitBook'
-          add: '.'
+          add: 'gitbook'
