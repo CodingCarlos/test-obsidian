@@ -1,4 +1,8 @@
-const fse = require('fs-extra');
+const copyProject = require('./gitbook/copy');
+const indexProject = require('./gitbook/index-project');
+const renameProject = require('./gitbook/rename');
+const summarize = require('./gitbook/summary');
+// const obsidianToMD = require('./gitbook/obsidian');
 
 /* Load settings (if exist) */
 let settings = {
@@ -21,57 +25,38 @@ async function main() {
   console.log('Building GitBook from Obsidian.');
   
   // Copy Obsidian project to GitBook
-  const copied = await copyProject();
-
+  const copied = await copyProject(settings.obsidianProject, settings.gitbookProject);
   if (!copied) {
     console.error('Aborting.');
     return false;
   }
 
-  /* (?) Build an index of the project files */
+  /* Build an index of the project files */
+  const index = await indexProject(settings.gitbookProject);
+  // console.log(index)
 
   /* Rename the files and folders */
+  const renamed = await renameProject(settings.gitbookProject, index);
+  if (!renamed) {
+    console.error('Unable to rename the project. Aborting.');
+    return false;
+  } else {
+    console.log('> Project successfully renamed.');
+  }
 
   /* Make the SUMMARY.md */
+  const summarized = await summarize(index);
+  if (!summarized) {
+    console.error('Aborting.');
+    return false;
+  }
+
 
   /* Convert the Obsidian syntax to markdown */
+  // obsidianToMd(index);
 
   return true
 }
 
 /* Execute the code */
 main();
-
-/**
- *  Copy obsidian project to gitbook 
- */
-async function copyProject() {
-  try { 
-    await fse.copySync(settings.obsidianProject, settings.gitbookProject);
-    console.log('> GitBook folder created.');
-
-    await fse.remove(`${settings.gitbookProject}/.obsidian`);
-    console.log('> Removed Obsidian files')
-
-    return true;
-  } catch (e) {
-    console.error('> Error copying Obsidian project to GitBook folder');
-    console.error(e);
-    return false;
-  }
-  // fse.copySync(settings.obsidianProject, settings.gitbookProject, { overwrite: true }, function (err) {
-  //   if (err) {
-  //     console.error(err);
-  //   } else {
-  //     console.log("success!");
-  //   }
-  // });
-}
-
-/* (?) Build an index of the project files */
-
-/* Rename the files and folders */
-
-/* Make the SUMMARY.md */
-
-/* Convert the Obsidian syntax to markdown */
