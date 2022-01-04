@@ -36,7 +36,7 @@ function summarizeNode(node, name, path = '') {
     summary += `${titleDepth} ${node.name}`;
   } else {      
     summary += '\n';
-    summary += `${indent}* [${node.name}](${nodePath})`;
+    summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
   }
 
   return summary;
