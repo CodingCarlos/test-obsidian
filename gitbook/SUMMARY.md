@@ -1,11 +1,11 @@
 # Summary
 
 ## Carpeta complicada
-    * [Archivo Dificilísimo.md](carpeta-complicada/archivo-dificilsimo.md)
+    * [Archivo Dificilísimo](carpeta-complicada/archivo-dificilsimo.md)
 
 ## research
-    * [How does it works.md](research/how-does-it-works.md)
+    * [How does it works](research/how-does-it-works.md)
 
-* [Home note.md](home-note.md)
-* [How does it works.md](how-does-it-works.md)
-* [What will I do?.md](what-will-i-do.md)
+* [Home note](home-note.md)
+* [How does it works](how-does-it-works.md)
+* [What will I do?](what-will-i-do.md)
