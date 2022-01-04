@@ -1,9 +1,9 @@
 # Summary
 
-## Carpeta complicada
+### Carpeta complicada
     * [Archivo Dificilísimo](carpeta-complicada/archivo-dificilsimo.md)
 
-## research
+### research
     * [How does it works](research/how-does-it-works.md)
 
 * [Home note](home-note.md)
