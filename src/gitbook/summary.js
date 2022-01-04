@@ -23,7 +23,7 @@ function summarizeNode(node, name, path = '') {
 
   const depth = (nodePath.split('/').length - 1);
   let indent = '';
-  let titleDepth = '#';
+  let titleDepth = '##';
 
   for(let i = 0; i < depth; i += 1) {
     indent += '    ';
