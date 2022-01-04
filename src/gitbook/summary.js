@@ -32,7 +32,7 @@ function summarizeNode(node, name, path = '') {
 
   // If folder, Set a tittle
   if (node.type === TYPE_DIR) {
-    summary += '\n\n';
+    summary += '\n';
     summary += `${titleDepth} ${node.name}`;
   } else {      
     summary += '\n';
@@ -58,6 +58,7 @@ function summarizeNodes(index, path = '') {
     if (node.type === TYPE_DIR && typeof node.content !== 'undefined') {
       const nodePath = getPath(nodes[i], path);
       summary += summarizeNodes(node.content, `${nodePath}`);
+      summary += '\n';
     }
   }
 
@@ -70,7 +71,7 @@ function summarizeNodes(index, path = '') {
 async function summarize(path, index) {
   // ToDo: If index not created, create one
   // ToDo: Instead of Summary, get the title from settings.json
-  let summary = '# Summary';
+  let summary = '# Summary\n';
 
   summary += summarizeNodes(index);
 

@@ -51,7 +51,6 @@ async function main() {
     return false;
   }
 
-
   /* Convert the Obsidian syntax to markdown */
   // obsidianToMd(index);
 
