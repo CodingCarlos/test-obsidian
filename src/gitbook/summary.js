@@ -23,7 +23,7 @@ function summarizeNode(node, name, path = '') {
 
   const depth = (nodePath.split('/').length - 1);
   let indent = '';
-  let titleDepth = '##';
+  let titleDepth = '###';
 
   for(let i = 0; i < depth; i += 1) {
     indent += '    ';
@@ -33,7 +33,7 @@ function summarizeNode(node, name, path = '') {
   // If folder, Set a tittle
   if (node.type === TYPE_DIR) {
     summary += '\n';
-    summary += `${indent}${titleDepth} ${node.name}`;
+    summary += `${titleDepth} ${node.name}`;
   } else {      
     summary += '\n';
     summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
