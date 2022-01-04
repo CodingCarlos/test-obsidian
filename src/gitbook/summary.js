@@ -33,7 +33,7 @@ function summarizeNode(node, name, path = '') {
   // If folder, Set a tittle
   if (node.type === TYPE_DIR) {
     summary += '\n';
-    summary += `${titleDepth} ${node.name}`;
+    summary += `${indent}${titleDepth} ${node.name}`;
   } else {      
     summary += '\n';
     summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
