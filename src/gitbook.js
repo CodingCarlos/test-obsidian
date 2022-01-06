@@ -6,8 +6,8 @@ const summarize = require('./gitbook/summary');
 
 /* Load settings (if exist) */
 let settings = {
-  obsidianProject: './obsidian',
-  gitbookProject: './gitbook',
+  obsidianProject: '../obsidian',
+  gitbookProject: '../gitbook',
 };
 
 try {
