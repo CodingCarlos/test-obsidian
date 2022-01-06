@@ -15,9 +15,11 @@ jobs:
           node-version: 12.x
 
       - name: Install dependencies
+        working-directory: ./src
         run: npm install
 
       - name: Run the builder
+        working-directory: ./src
         run: npm run build:gitbook
 
       - name: Commit changes
