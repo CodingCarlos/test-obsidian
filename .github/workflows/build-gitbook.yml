@@ -14,13 +14,12 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Move to src dir
-        run: cd src
-
       - name: Install dependencies
+        working-directory: ./src
         run: npm install
 
       - name: Run the builder
+        working-directory: ./src
         run: npm run build:gitbook
 
       - name: Commit changes
