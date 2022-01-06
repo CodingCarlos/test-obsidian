@@ -18,11 +18,13 @@ function getPath(name, path) {
 /**
  *
  */
-async function summarizeNode(node, name, path = '') {
+async function summarizeNode(node, name, path = '', originPath = '') {
   let summary = '';
   let nodePath = getPath(name, path);
 
-  const depth = (nodePath.split('/').length - 1);
+  const originDepth = (originPath.replace('./', '').split('/').length);
+  const depth = (nodePath.replace('./', '').split('/').length - 1) - originDepth;
+
   let indent = '';
   // let titleDepth = '###';
 
@@ -37,8 +39,10 @@ async function summarizeNode(node, name, path = '') {
   //   summary += `${titleDepth} ${node.name}`;
   // }
 
-  // If folder, create a README.md inside
+  // If folder,
   if (node.type === TYPE_DIR) {
+    // Drown down a level
+
     // If not README.md, create one
     nodePath += '/README.md';
     const exists = await fse.pathExists(nodePath);
