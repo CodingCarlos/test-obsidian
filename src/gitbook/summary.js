@@ -1,4 +1,5 @@
 const fs = require('fs')
+const fse = require('fs-extra')
 
 const { TYPE_DIR } = require('./utils/nodes');
 
@@ -17,27 +18,39 @@ function getPath(name, path) {
 /**
  *
  */
-function summarizeNode(node, name, path = '') {
+async function summarizeNode(node, name, path = '') {
   let summary = '';
-  const nodePath = getPath(name, path);
+  let nodePath = getPath(name, path);
 
   const depth = (nodePath.split('/').length - 1);
   let indent = '';
-  let titleDepth = '###';
+  // let titleDepth = '###';
 
   for(let i = 0; i < depth; i += 1) {
     indent += '    ';
-    titleDepth += '#';
+    // titleDepth += '#';
   }
 
-  // If folder, Set a tittle
+  // ToDo: If folder is heading, mark it as so. 
+  // if (node.type === TYPE_DIR && isSectionHeader(node.name)) {
+  //   summary += '\n';
+  //   summary += `${titleDepth} ${node.name}`;
+  // }
+
+  // If folder, create a README.md inside
   if (node.type === TYPE_DIR) {
-    summary += '\n';
-    summary += `${titleDepth} ${node.name}`;
-  } else {      
-    summary += '\n';
-    summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
+    // If not README.md, create one
+    nodePath += '/README.md';
+    const exists = await fse.pathExists(nodePath);
+
+    if (!exists) {
+      let data = `# ${node.name}\n`;
+      fs.writeFileSync(nodePath, data);
+    }
   }
+
+  summary += '\n';
+  summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
 
   return summary;
 }
@@ -45,7 +58,7 @@ function summarizeNode(node, name, path = '') {
 /**
  *
  */
-function summarizeNodes(index, path = '') {
+async function summarizeNodes(index, path = '') {
   let summary = '';
 
   const nodes = Object.keys(index);
@@ -53,11 +66,11 @@ function summarizeNodes(index, path = '') {
   for (let i = 0; i < nodes.length; i += 1) {
     const node = index[nodes[i]];
     
-    summary += summarizeNode(node, nodes[i], path)
+    summary += await summarizeNode(node, nodes[i], path)
 
     if (node.type === TYPE_DIR && typeof node.content !== 'undefined') {
       const nodePath = getPath(nodes[i], path);
-      summary += summarizeNodes(node.content, `${nodePath}`);
+      summary += await summarizeNodes(node.content, `${nodePath}`);
       summary += '\n';
     }
   }
@@ -73,7 +86,7 @@ async function summarize(path, index) {
   // ToDo: Instead of Summary, get the title from settings.json
   let summary = '# Summary\n';
 
-  summary += summarizeNodes(index);
+  summary += await summarizeNodes(index, path);
 
   try {
     fs.writeFileSync(`${path}/SUMMARY.md`, summary);

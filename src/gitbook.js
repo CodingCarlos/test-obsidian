@@ -45,12 +45,13 @@ async function main() {
   }
 
   /* Make the SUMMARY.md */
-  // const summarized = await summarize(settings.gitbookProject, index);
-  // if (!summarized) {
-  //   console.error('Aborting.');
-  //   return false;
-  // }
-  console.log('> Summary ommited. GitBook should be able to make it...');
+  const summarized = await summarize(settings.gitbookProject, index);
+  if (!summarized) {
+    console.error('Aborting.');
+    return false;
+  }
+  // ToDo: Config settings for letting GitBook generate the file
+  // console.log('> Summary ommited. GitBook should be able to make it...');
 
   /* Convert the Obsidian syntax to markdown */
   // obsidianToMd(index);
