@@ -23,8 +23,8 @@ async function summarizeNode(node, name, path = '', originPath = '') {
   let nodePath = getPath(name, path);
 
   const originDepth = (originPath.replace('./', '').split('/').length);
-  const depth = (nodePath.replace('./', '').split('/').length - 1) - originDepth;
-
+  const depth = (nodePath.replace('./', '').split('/').length - 1 - originDepth);
+  
   let indent = '';
   // let titleDepth = '###';
 
@@ -53,8 +53,10 @@ async function summarizeNode(node, name, path = '', originPath = '') {
     }
   }
 
+  const relativeLocation = nodePath.replace(`${originPath}/`, '');
+
   summary += '\n';
-  summary += `${indent}* [${node.name.replace('.md', '')}](${nodePath})`;
+  summary += `${indent}* [${node.name.replace('.md', '')}](${relativeLocation})`;
 
   return summary;
 }
@@ -62,7 +64,7 @@ async function summarizeNode(node, name, path = '', originPath = '') {
 /**
  *
  */
-async function summarizeNodes(index, path = '') {
+async function summarizeNodes(index, path = '', originPath = '') {
   let summary = '';
 
   const nodes = Object.keys(index);
@@ -70,11 +72,11 @@ async function summarizeNodes(index, path = '') {
   for (let i = 0; i < nodes.length; i += 1) {
     const node = index[nodes[i]];
     
-    summary += await summarizeNode(node, nodes[i], path)
+    summary += await summarizeNode(node, nodes[i], path, (originPath || path))
 
     if (node.type === TYPE_DIR && typeof node.content !== 'undefined') {
       const nodePath = getPath(nodes[i], path);
-      summary += await summarizeNodes(node.content, `${nodePath}`);
+      summary += await summarizeNodes(node.content, `${nodePath}`, (originPath || path));
       summary += '\n';
     }
   }
