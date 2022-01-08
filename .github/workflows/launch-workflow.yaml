@@ -14,5 +14,5 @@ jobs:
               'recursosdisenoes',
               'obsidian-gitbook',
               'workflows/build-gitbook.yaml',
-              'main',
+              'main'
             });
