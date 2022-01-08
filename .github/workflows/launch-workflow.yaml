@@ -1,0 +1,18 @@
+name: Launch workflow in recursosdisenoes/obsidian-gitbook
+on: push
+
+jobs:
+  run:
+    name: Launch the actions there
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Stage
+        uses: actions/github-script@v5
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              'Mause',
+              'fdroidrepo',
+              'workflows/update.yaml',
+              'main',
+            });
