@@ -11,8 +11,8 @@ jobs:
         with:
           script: |
             await github.rest.actions.createWorkflowDispatch({
-              'Mause',
-              'fdroidrepo',
-              'workflows/update.yaml',
+              'recursosdisenoes',
+              'obsidian-gitbook',
+              'workflows/build-gitbook.yaml',
               'main',
             });
